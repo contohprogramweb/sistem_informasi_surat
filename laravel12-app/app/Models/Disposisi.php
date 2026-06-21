@@ -25,6 +25,8 @@ class Disposisi extends Model
         'parent_id',
         'tembusan',
         'read_at',
+        'is_read_first',
+        'first_read_at',
         'komentar_selesai',
         'file_tindak_lanjut',
     ];
@@ -33,6 +35,8 @@ class Disposisi extends Model
         'tembusan' => 'array',
         'batas_waktu' => 'date',
         'read_at' => 'datetime',
+        'is_read_first' => 'boolean',
+        'first_read_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -51,6 +55,14 @@ class Disposisi extends Model
     public function keUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'ke_user_id');
+    }
+
+    /**
+     * Alias for keUser (penerima disposisi)
+     */
+    public function penerima(): BelongsTo
+    {
+        return $this->keUser();
     }
 
     public function parent(): BelongsTo
@@ -110,5 +122,40 @@ class Disposisi extends Model
             'Belum Selesai' => 'danger',
             default => 'secondary',
         };
+    }
+
+    /**
+     * Mark disposisi as read for the first time
+     */
+    public function markAsReadFirst(): void
+    {
+        if (!$this->is_read_first) {
+            $this->update([
+                'is_read_first' => true,
+                'first_read_at' => now(),
+            ]);
+        }
+    }
+
+    /**
+     * Check if this disposisi is overdue
+     */
+    public function isOverdue(): bool
+    {
+        if (!$this->batas_waktu || in_array($this->status, ['Selesai', 'Diteruskan'])) {
+            return false;
+        }
+        return now()->gt($this->batas_waktu);
+    }
+
+    /**
+     * Get days until deadline (negative if overdue)
+     */
+    public function daysUntilDeadline(): ?int
+    {
+        if (!$this->batas_waktu) {
+            return null;
+        }
+        return now()->diffInDays($this->batas_waktu, false);
     }
 }
