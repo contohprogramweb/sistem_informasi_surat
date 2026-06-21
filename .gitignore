@@ -1,43 +1,36 @@
 ```
-# Dependency directories
-vendor/
-node_modules/
-
-# Laravel specific
+# Laravel-specific ignores
 bootstrap/cache/
-storage/logs/
-storage/framework/
-public/storage/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+vendor/
+
+# PHP
+*.php~
+*.php.bak
+*.swp
 
 # Environment
 .env
 .env.local
 .env.*
+!.env.example
 
-# Editor/IDE
+# Logs
+*.log
+storage/logs/
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-
-# Compiled files
-*.o
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.out
-
-# Build artifacts
-dist/
-build/
-target/
+# Tests
+.phpunit.result.cache
 ```
