@@ -276,4 +276,92 @@ class SystemController extends Controller
         $batches = $query->paginate(20);
         return view('admin.import.history', compact('batches'));
     }
+
+    /**
+     * Halaman index delegasi
+     */
+    public function delegasiIndex(Request $request)
+    {
+        $query = \App\Models\Delegasi::with(['user', 'penggantiUser'])->latest();
+        
+        if ($request->filled('status')) {
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        }
+
+        $delegasis = $query->paginate(20);
+        $users = \App\Models\User::where('is_active', true)->get();
+        
+        return view('admin.delegasi.index', compact('delegasis', 'users'));
+    }
+
+    /**
+     * Create delegasi
+     */
+    public function delegasiCreate(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'pengganti_user_id' => 'required|exists:users,id|different:user_id',
+            'tanggal_mulai' => 'required|date|today_or_future',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        // Cek overlap delegasi
+        $overlap = \App\Models\Delegasi::where('user_id', $validated['user_id'])
+            ->where('is_active', true)
+            ->where(function($q) use ($validated) {
+                $q->whereBetween('tanggal_mulai', [$validated['tanggal_mulai'], $validated['tanggal_selesai']])
+                  ->orWhereBetween('tanggal_selesai', [$validated['tanggal_mulai'], $validated['tanggal_selesai']])
+                  ->orWhere(function($q2) use ($validated) {
+                      $q2->where('tanggal_mulai', '<=', $validated['tanggal_mulai'])
+                         ->where('tanggal_selesai', '>=', $validated['tanggal_selesai']);
+                  });
+            })
+            ->exists();
+
+        if ($overlap) {
+            return back()->withErrors(['tanggal_mulai' => 'Periode delegasi overlap dengan delegasi yang sudah ada.']);
+        }
+
+        \App\Models\Delegasi::create([
+            'user_id' => $validated['user_id'],
+            'pengganti_user_id' => $validated['pengganti_user_id'],
+            'tanggal_mulai' => $validated['tanggal_mulai'],
+            'tanggal_selesai' => $validated['tanggal_selesai'],
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('admin.delegasi.index')->with('success', 'Delegasi berhasil dibuat.');
+    }
+
+    /**
+     * Update delegasi
+     */
+    public function delegasiUpdate(Request $request, \App\Models\Delegasi $delegasi)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'pengganti_user_id' => 'required|exists:users,id|different:user_id',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'is_active' => 'boolean',
+        ]);
+
+        $delegasi->update($validated);
+
+        return redirect()->route('admin.delegasi.index')->with('success', 'Delegasi berhasil diupdate.');
+    }
+
+    /**
+     * Delete delegasi
+     */
+    public function delegasiDelete(\App\Models\Delegasi $delegasi)
+    {
+        $delegasi->delete();
+        return redirect()->route('admin.delegasi.index')->with('success', 'Delegasi berhasil dihapus.');
+    }
 }

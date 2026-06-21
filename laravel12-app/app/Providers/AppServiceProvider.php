@@ -11,6 +11,15 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\SuratMasuk;
 use App\Models\SuratKeluar;
+use App\Models\Disposisi;
+use App\Models\Delegasi;
+use App\Models\Lampiran;
+use App\Observers\SuratMasukObserver;
+use App\Observers\SuratKeluarObserver;
+use App\Observers\DisposisiObserver;
+use App\Observers\DelegasiObserver;
+use App\Observers\UserObserver;
+use App\Observers\LampiranObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -79,5 +88,13 @@ class AppServiceProvider extends ServiceProvider
 
             return false;
         });
+
+        // Register Observers untuk Audit Trail
+        SuratMasuk::observe(SuratMasukObserver::class);
+        SuratKeluar::observe(SuratKeluarObserver::class);
+        Disposisi::observe(DisposisiObserver::class);
+        Delegasi::observe(DelegasiObserver::class);
+        User::observe(UserObserver::class);
+        Lampiran::observe(LampiranObserver::class);
     }
 }
