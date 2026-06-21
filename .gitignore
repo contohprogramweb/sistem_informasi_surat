@@ -3,12 +3,12 @@
 /vendor/
 /node_modules/
 
-# Laravel specific
-/bootstrap/cache/*
-/storage/framework/cache/data/
-/storage/framework/sessions/
-/storage/framework/views/
-/storage/logs/laravel.log
+# Laravel-specific
+/bootstrap/cache/
+/storage/logs/
+/storage/framework/
+/database/seeds/
+/database/factories/
 
 # Environment
 .env
@@ -16,8 +16,8 @@
 .env.*
 
 # IDE
-/.vscode/
-/.idea/
+.vscode/
+.idea/
 
 # OS
 .DS_Store
@@ -26,14 +26,29 @@ Thumbs.db
 # Logs
 *.log
 
-# Compiled and build artifacts
+# Build artifacts
+/dist/
+/build/
+/coverage/
+/htmlcov/
+/.nyc_output/
+/.grunt/
+/.tmp/
+*.tmp
+
+# PHP
 *.php~
-*.js.map
-*.css.map
+*.swp
+.php_cs.cache
 
-# Testing
+# Vite
+/vite/
+/public/build/
+
+# Package lock files
+package-lock.json
+composer.lock
+
+# Tests
 .phpunit.result.cache
-
-# Composer
-composer.phar
 ```
