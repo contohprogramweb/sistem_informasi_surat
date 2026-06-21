@@ -36,7 +36,22 @@
                         <i class="bi bi-folder me-1"></i>Arsip
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('search.*') ? 'active' : '' }}" href="{{ route('search.index') }}">
+                        <i class="bi bi-search me-1"></i>Pencarian
+                    </a>
+                </li>
             </ul>
+            
+            <!-- Global Search in Navbar -->
+            <form action="{{ route('search.index') }}" method="GET" class="d-flex me-3" style="min-width: 300px;">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="q" class="form-control" placeholder="Cari surat..." value="{{ request('q', '') }}">
+                    <button class="btn btn-light" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
             
             <ul class="navbar-nav">
                 <!-- Notification Bell -->
