@@ -93,56 +93,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('surat-masuk.update');
         
         Route::delete('/surat-masuk/{id}', function($id) {
-            // Implementasi destroy nanti
-            return redirect()->route('surat-masuk.index');
-        })->name('surat-masuk.destroy');
-    });
-    
+
     // ========================================
     // SURAT KELUAR
     // ========================================
-    
-    // Create surat keluar
-    Route::middleware(['permission:surat_keluar.create'])->group(function () {
-        Route::get('/surat-keluar/create', function() {
-            return view('surat-keluar.create');
-        })->name('surat-keluar.create');
-        
-        Route::post('/surat-keluar', function() {
-            // Implementasi store nanti
-            return redirect()->route('dashboard');
-        })->name('surat-keluar.store');
-    });
-    
-    // Review surat keluar (Kabag)
-    Route::middleware(['permission:surat_keluar.review'])->group(function () {
-        Route::post('/surat-keluar/{id}/review', function($id) {
-            // Implementasi review nanti
-            return back();
-        })->name('surat-keluar.review');
-    });
-    
-    // Approve surat keluar (Pimpinan)
-    Route::middleware(['permission:surat_keluar.approve'])->group(function () {
-        Route::post('/surat-keluar/{id}/approve', function($id) {
-            // Implementasi approve nanti
-            return back();
-        })->name('surat-keluar.approve');
-    });
-    
-    // TTD elektronik surat keluar
-    Route::middleware(['permission:surat_keluar.ttd'])->group(function () {
-        Route::post('/surat-keluar/{id}/ttd', function($id) {
-            // Implementasi TTE nanti
-            return back();
-        })->name('surat-keluar.ttd');
-    });
-    
-    // ========================================
-    // DISPOSISI
-    // ========================================
-    
-    // Create disposisi
+    Route::resource('surat-keluar', \App\Http\Controllers\SuratKeluarController::class);
+    Route::post('surat-keluar/{suratKeluar}/submit-review', [\App\Http\Controllers\SuratKeluarController::class, 'submitReview'])->name('surat-keluar.submit-review');
+    Route::post('surat-keluar/{suratKeluar}/approve', [\App\Http\Controllers\SuratKeluarController::class, 'approve'])->name('surat-keluar.approve')->middleware(['permission:surat_keluar.approve']);
+    Route::post('surat-keluar/{suratKeluar}/reject', [\App\Http\Controllers\SuratKeluarController::class, 'reject'])->name('surat-keluar.reject');
+    Route::post('surat-keluar/{suratKeluar}/prepare-sign', [\App\Http\Controllers\SuratKeluarController::class, 'prepareSign'])->name('surat-keluar.prepare-sign');
+    Route::post('surat-keluar/{suratKeluar}/sign', [\App\Http\Controllers\SuratKeluarController::class, 'sign'])->name('surat-keluar.sign')->middleware(['permission:surat_keluar.ttd']);
+    Route::post('surat-keluar/{suratKeluar}/send', [\App\Http\Controllers\SuratKeluarController::class, 'send'])->name('surat-keluar.send');
+    Route::post('surat-keluar/{suratKeluar}/transition', [\App\Http\Controllers\SuratKeluarController::class, 'transition'])->name('surat-keluar.transition');
+
     Route::middleware(['permission:disposisi.create'])->group(function () {
         Route::post('/disposisi', function() {
             // Implementasi store nanti
