@@ -253,3 +253,45 @@ Route::middleware(['auth', 'verified'])->prefix('tte')->name('tte.')->group(func
         ->name('signature.delete')
         ->can('tte.manage');
 });
+
+// ============================================
+// ARSIP & RETENSI Routes
+// ============================================
+use App\Http\Controllers\ArsipRetensiController;
+
+Route::middleware(['auth', 'verified', 'permission:arsip.manage'])
+    ->prefix('arsip')
+    ->name('arsip.')
+    ->group(function () {
+        
+        // Dashboard Arsip
+        Route::get('/', [ArsipRetensiController::class, 'index'])->name('index');
+        
+        // Archive surat
+        Route::post('/surat-masuk/{suratMasuk}/archive', [ArsipRetensiController::class, 'archiveSuratMasuk'])
+            ->name('archive.surat-masuk')
+            ->can('arsip.archive');
+        Route::post('/surat-keluar/{suratKeluar}/archive', [ArsipRetensiController::class, 'archiveSuratKeluar'])
+            ->name('archive.surat-keluar')
+            ->can('arsip.archive');
+        
+        // Jatuh Tempo Report
+        Route::get('/jatuh-tempo', [ArsipRetensiController::class, 'jatuhTempo'])->name('jatuh-tempo');
+        Route::get('/jatuh-tempo/export', [ArsipRetensiController::class, 'exportJatuhTempo'])->name('jatuh-tempo-export');
+        
+        // Berita Acara Pemusnahan
+        Route::get('/berita-acara', [ArsipRetensiController::class, 'listBeritaAcara'])->name('berita-acara.index');
+        Route::get('/berita-acara/create', [ArsipRetensiController::class, 'createBeritaAcara'])->name('berita-acara.create');
+        Route::post('/berita-acara', [ArsipRetensiController::class, 'storeBeritaAcara'])->name('berita-acara.store');
+        Route::get('/berita-acara/{beritaAcara}', [ArsipRetensiController::class, 'showBeritaAcara'])->name('berita-acara.show');
+        
+        // Trash (Soft Delete)
+        Route::get('/trash', [ArsipRetensiController::class, 'trash'])->name('trash');
+        Route::patch('/restore/{type}/{id}', [ArsipRetensiController::class, 'restore'])->name('restore');
+        Route::delete('/{type}/{id}', [ArsipRetensiController::class, 'destroy'])->name('destroy');
+        
+        // Notifications
+        Route::get('/notifications', [ArsipRetensiController::class, 'notifications'])->name('notifications');
+        Route::patch('/notifications/{notification}/read', [ArsipRetensiController::class, 'markNotificationAsRead'])
+            ->name('notifications.read');
+    });
