@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('sifat_surats', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_unit')->unique();
-            $table->string('nama_unit');
-            $table->text('deskripsi')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('nama', 50)->unique();
+            $table->string('keterangan', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('sifat_surats');
     }
 };

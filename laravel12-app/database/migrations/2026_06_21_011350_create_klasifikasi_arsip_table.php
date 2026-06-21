@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('retensi_inaktif')->default(0)->comment('Tahun retensi inaktif');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
             
             $table->index(['parent_id', 'level']);
         });
