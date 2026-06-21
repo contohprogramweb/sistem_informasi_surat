@@ -1,0 +1,253 @@
+/* ==========================================================================
+   SIAP-SMK - Responsive & Mobile-First Custom Styles
+   Bootstrap 5 Enhancements for Mobile (360px+)
+   ========================================================================== */
+
+/* Touch-friendly buttons and interactive elements (min 44px) */
+.btn, 
+a.btn, 
+input[type="submit"], 
+button, 
+.form-control, 
+.form-select,
+.nav-link,
+.dropdown-item {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Ensure clickable areas are large enough */
+.btn-sm, 
+.btn-group-sm > .btn {
+    min-height: 36px; /* Slightly smaller for mobile but still touchable */
+}
+
+/* Label stacking on mobile */
+@media (max-width: 767.98px) {
+    .form-label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+    
+    .form-inline .form-group,
+    .form-row {
+        margin-bottom: 1rem;
+    }
+    
+    /* Stack form controls vertically */
+    .form-inline .form-control,
+    .form-inline .form-select,
+    .form-inline .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Adjust table-responsive for better horizontal scroll */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* DataTables specific adjustments */
+    .dataTables_wrapper .row {
+        flex-direction: column;
+    }
+    
+    .dataTables_wrapper .col-md-6,
+    .dataTables_wrapper .col-sm-12 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        text-align: center !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+}
+
+/* Sidebar collapsible on mobile */
+.sidebar {
+    transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        top: 56px; /* Height of navbar */
+        left: -280px; /* Hide sidebar by default */
+        height: calc(100vh - 56px);
+        z-index: 1000;
+        overflow-y: auto;
+        background-color: #343a40;
+    }
+    
+    .sidebar.active {
+        left: 0; /* Show sidebar when active */
+    }
+    
+    /* Overlay when sidebar is open */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+    
+    /* Main content adjustment */
+    .main-content {
+        margin-left: 0 !important;
+    }
+}
+
+/* Hamburger menu button */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Card adjustments for mobile */
+@media (max-width: 575.98px) {
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Stack statistics cards */
+    .stats-card .card-body {
+        text-align: center;
+    }
+}
+
+/* Table horizontal scroll on mobile */
+.table-responsive-mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767.98px) {
+    .table-responsive-mobile {
+        max-width: 100%;
+    }
+    
+    /* Ensure table doesn't break layout */
+    .table {
+        min-width: 600px;
+    }
+}
+
+/* Modal adjustments for mobile */
+@media (max-width: 575.98px) {
+    .modal-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+    
+    .modal-fullscreen-sm-down {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    
+    .modal-fullscreen-sm-down .modal-body {
+        overflow-y: auto;
+    }
+}
+
+/* Navigation adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: #fff;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+}
+
+/* Print styles */
+@media print {
+    .sidebar,
+    .navbar,
+    .no-print {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+}
+
+/* Utility classes for responsive visibility */
+.show-mobile-only {
+    display: none;
+}
+
+.hide-mobile-only {
+    display: block;
+}
+
+@media (max-width: 767.98px) {
+    .show-mobile-only {
+        display: block;
+    }
+    
+    .hide-mobile-only {
+        display: none;
+    }
+}
+
+/* Loading spinner centering */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+/* Chart container responsive */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 767.98px) {
+    .chart-container {
+        height: 250px;
+    }
+}
+
+/* Badge improvements for mobile */
+.badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+}
+
+/* Alert dismissible button touch-friendly */
+.btn-close {
+    padding: 0.5rem;
+    background-size: 0.75em;
+}

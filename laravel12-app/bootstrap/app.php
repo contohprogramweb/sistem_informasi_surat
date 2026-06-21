@@ -16,14 +16,20 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-            
+
             // Custom middleware untuk role check
             'role.check' => \App\Http\Middleware\RoleMiddleware::class,
+            
+            // Security Headers middleware
+            'security.headers' => \App\Http\Middleware\SecurityHeaders::class,
         ]);
         
+        // Apply security headers globally
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+
         // Redirect ke login jika unauthorized
         $middleware->redirectGuestsTo('/login');
-        
+
         // Rate limiting sudah dikonfigurasi di AppServiceProvider
     })
     ->withExceptions(function (Exceptions $exceptions): void {
