@@ -1,66 +1,84 @@
+```
 # Laravel-specific ignores
-*.log
 /vendor/
-/node_modules/
-/public/hot
-/storage/logs/
-/storage/framework/cache/
-/storage/framework/sessions/
-/storage/framework/views/
-/coverage/
+/storage/logs/*
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*
 
-# Environment
+# Dependencies
+/node_modules/
+/vendor/
+
+# Compiled and build artifacts
+*.php~
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+dist/
+build/
+target/
+*.class
+
+# Python-related (if any Python tools used)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+*.swp
+*.swo
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Environment variables
 .env
 .env.local
 .env.*
+!.env.example
 
-# IDE
+# Editors
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Dependencies
-composer.lock
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build artifacts
-public/build/
-bootstrap/cache/
-storage/app/public/avatars/.*\.php$
-*.php~
-.php_cs.cache
-.phpunit.result.cache
-
 # Testing
-.phpunit/
-.phpspec/
-tests/_output/
-
-# Security
-.ssh/
-config/*.key
-app/keys/
-
-# Cache
-cache/
-.ccache/
+coverage/
+htmlcov/
+.coverage
+.nyc_output
+istanbul/
 .mypy_cache/
 .pytest_cache/
-__pycache__/
-*.pyc
+.phpunit.result.cache
 
-# Distribution
-dist/
-build/
-target/
-.gradle/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db:encryptable
 
 # Compression
 *.zip
@@ -85,3 +103,10 @@ target/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+
+# Laravel specific compiled assets
+/public/css/app.css
+/public/js/app.js
+/public/mix-manifest.json
+/webpack.mix.js
+```

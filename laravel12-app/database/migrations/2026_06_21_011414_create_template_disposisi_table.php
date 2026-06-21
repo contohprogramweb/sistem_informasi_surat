@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama');
-            $table->text('instruksi');
-            $table->string('tujuan_default')->nullable();
+            $table->text('instruksi_default');
+            $table->json('tujuan_default')->nullable();
             $table->text('tembusan_default')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
             
             $table->index(['user_id', 'is_active']);
         });

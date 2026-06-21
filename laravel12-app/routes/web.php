@@ -18,6 +18,33 @@ Route::middleware('auth')->group(function () {
 });
 
 // ============================================
+// MASTER DATA ROUTES (SIAP-SMK)
+// ============================================
+use App\Http\Controllers\Master\UnitController;
+use App\Http\Controllers\Master\KlasifikasiArsipController;
+use App\Http\Controllers\Master\SifatSuratController;
+use App\Http\Controllers\Master\TemplateDisposisiController;
+
+Route::middleware(['auth', 'verified'])->prefix('master')->name('master.')->group(function () {
+    
+    // Unit CRUD
+    Route::resource('units', UnitController::class);
+    Route::post('units/{unit}/restore', [UnitController::class, 'restore'])->name('units.restore')->withTrashed();
+    
+    // Klasifikasi Arsip CRUD + Tree
+    Route::resource('klasifikasi', KlasifikasiArsipController::class);
+    Route::post('klasifikasi/{klasifikasi}/restore', [KlasifikasiArsipController::class, 'restore'])->name('klasifikasi.restore');
+    Route::get('klasifikasi-tree-list', [KlasifikasiArsipController::class, 'treeList'])->name('klasifikasi.tree');
+    
+    // Sifat Surat CRUD
+    Route::resource('sifat-surat', SifatSuratController::class);
+    Route::post('sifat-surat/{id}/restore', [SifatSuratController::class, 'restore'])->name('sifat-surat.restore');
+    
+    // Template Disposisi CRUD (hanya milik user sendiri)
+    Route::resource('template-disposisi', TemplateDisposisiController::class);
+});
+
+// ============================================
 // ROUTE SIAP-SMK dengan RBAC dan Permission
 // ============================================
 // Catatan: Controller untuk fitur SIAP-SMK belum dibuat.
