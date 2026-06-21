@@ -93,6 +93,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('surat-masuk.update');
         
         Route::delete('/surat-masuk/{id}', function($id) {
+            // Implementasi delete nanti
+            return redirect()->route('surat-masuk.index');
+        })->name('surat-masuk.destroy');
+    });
 
     // ========================================
     // SURAT KELUAR
