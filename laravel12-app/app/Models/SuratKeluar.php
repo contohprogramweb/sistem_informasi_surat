@@ -20,11 +20,13 @@ class SuratKeluar extends Model
         'status', 'catatan_review', 'alasan_tolak',
         'cara_kirim', 'tanggal_kirim', 'resi',
         'created_by', 'reviewer_id', 'approver_id', 'signed_by',
+        'hash_file_final', 'pdf_final_path', 'signed_at',
     ];
 
     protected $casts = [
         'tanggal_surat_final' => 'date',
         'tanggal_kirim' => 'date',
+        'signed_at' => 'datetime',
         'status' => SuratKeluarStatus::class,
     ];
 

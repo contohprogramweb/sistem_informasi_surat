@@ -205,3 +205,51 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+// ============================================
+// TTE (Tanda Tangan Elektronik) Routes
+// ============================================
+use App\Http\Controllers\TteSignatureController;
+
+Route::middleware(['auth', 'verified'])->prefix('tte')->name('tte.')->group(function () {
+    // Upload tanda tangan (Admin TU)
+    Route::get('/upload-signature', [TteSignatureController::class, 'uploadSignaturePage'])
+        ->name('upload-signature')
+        ->can('tte.upload');
+    
+    Route::post('/upload-signature', [TteSignatureController::class, 'uploadSignature'])
+        ->name('upload-signature.store')
+        ->can('tte.upload');
+    
+    // Halaman TTE untuk Pimpinan
+    Route::get('/sign/{suratKeluar}', [TteSignatureController::class, 'signPage'])
+        ->name('sign-page')
+        ->can('surat_keluar.ttd');
+    
+    // Proses tanda tangan
+    Route::post('/sign/{suratKeluar}', [TteSignatureController::class, 'signDocument'])
+        ->name('sign-document')
+        ->can('surat_keluar.ttd');
+    
+    // Preview PDF
+    Route::get('/pdf-preview/{suratKeluar}', [TteSignatureController::class, 'getPdfPreview'])
+        ->name('pdf-preview')
+        ->can('surat_keluar.ttd');
+    
+    // Log TTE
+    Route::get('/logs/{suratKeluar}', [TteSignatureController::class, 'viewLogs'])
+        ->name('logs')
+        ->can('surat_keluar.view.all');
+    
+    // Verifikasi hash
+    Route::post('/verify-hash', [TteSignatureController::class, 'verifyHash'])
+        ->name('verify-hash')
+        ->can('tte.verify');
+    
+    // Delete signature (admin only)
+    Route::delete('/signature/{signatureId}', [TteSignatureController::class, 'deleteSignature'])
+        ->name('signature.delete')
+        ->can('tte.manage');
+});
