@@ -11,7 +11,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register Spatie Permission middleware
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            
+            // Custom middleware untuk role check
+            'role.check' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+        
+        // Redirect ke login jika unauthorized
+        $middleware->redirectGuestsTo('/login');
+        
+        // Rate limiting sudah dikonfigurasi di AppServiceProvider
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
