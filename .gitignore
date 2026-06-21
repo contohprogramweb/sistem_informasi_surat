@@ -1,1 +1,39 @@
+```
+# Dependency directories
+/vendor/
+/node_modules/
 
+# Laravel specific
+/bootstrap/cache/*
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/laravel.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# IDE
+/.vscode/
+/.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Compiled and build artifacts
+*.php~
+*.js.map
+*.css.map
+
+# Testing
+.phpunit.result.cache
+
+# Composer
+composer.phar
+```
