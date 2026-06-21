@@ -1,36 +1,50 @@
 ```
 # Laravel-specific ignores
-bootstrap/cache/
-storage/framework/cache/
-storage/framework/sessions/
-storage/framework/views/
 vendor/
+composer.lock
+.env
+.env.*
+!.env.example
 
 # PHP
 *.php~
 *.php.bak
 *.swp
+*.swo
 
-# Environment
-.env
-.env.local
-.env.*
-!.env.example
-
-# Logs
-*.log
-storage/logs/
+# Build artifacts
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
+*.sublime-project
+*.sublime-workspace
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Tests
+# Logs
+*.log
+storage/logs/
+
+# Cache
+bootstrap/cache/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+
+# Testing
 .phpunit.result.cache
+.php_cs.cache
+
+# Distribution / packaging
+*.tar
+*.tar.gz
+*.tar.bz2
+*.zip
 ```
