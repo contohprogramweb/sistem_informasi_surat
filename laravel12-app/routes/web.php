@@ -213,6 +213,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/auth.php';
 
+// ============================================
+// SEARCH Routes (Global Search)
+// ============================================
+use App\Http\Controllers\SearchController;
+
+Route::middleware(['auth', 'verified'])->prefix('search')->name('search.')->group(function () {
+    // Search page with filters
+    Route::get('/', [SearchController::class, 'index'])->name('index');
+    
+    // API endpoint for AJAX search
+    Route::get('/api', [SearchController::class, 'search'])->name('api');
+    
+    // Export search results
+    Route::get('/export', [SearchController::class, 'export'])->name('export');
+    
+    // Get filter options
+    Route::get('/filter-options', [SearchController::class, 'getFilterOptions'])->name('filter-options');
+});
+
 
 
 // ============================================
