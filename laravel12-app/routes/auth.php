@@ -11,21 +11,25 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+// Route guest dengan rate limiting untuk login (max 3 percobaan per 15 menit)
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+    // Login dengan rate limiting
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware('throttle:login'); // Rate limiting untuk login
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->middleware('throttle:6,1') // Rate limiting untuk forgot password
         ->name('password.email');
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
@@ -35,6 +39,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+// Route auth
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -52,8 +57,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    // Update password dengan validasi StrongPassword
+    Route::put('password', [PasswordController::class, 'update'])
+        ->name('password.update');
 
+    // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
