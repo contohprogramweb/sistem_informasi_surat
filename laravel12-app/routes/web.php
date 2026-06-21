@@ -346,3 +346,33 @@ Route::middleware(['auth', 'verified'])->prefix('notifications')->name('notifica
     // View all notifications with pagination
     Route::get('/all', [NotificationController::class, 'getAll'])->name('all');
 });
+
+// ============================================
+// LAPORAN & STATISTIK ROUTES (SIAP-SMK)
+// ============================================
+use App\Http\Controllers\Reports\ReportController;
+
+Route::middleware(['auth', 'verified'])->prefix('reports')->name('reports.')->group(function () {
+    // Main menu
+    Route::get('/', [ReportController::class, 'index'])->name('index');
+    
+    // Buku Agenda
+    Route::get('/buku-agenda/masuk', [ReportController::class, 'bukuAgendaMasuk'])->name('buku-agenda.masuk');
+    Route::get('/buku-agenda/keluar', [ReportController::class, 'bukuAgendaKeluar'])->name('buku-agenda.keluar');
+    Route::get('/export/buku-agenda', [ReportController::class, 'exportBukuAgenda'])->name('export.buku-agenda');
+    
+    // Rekap Disposisi
+    Route::get('/rekap-disposisi', [ReportController::class, 'rekapDisposisi'])->name('rekap-disposisi');
+    Route::get('/export/rekap-disposisi', [ReportController::class, 'exportRekapDisposisi'])->name('export.rekap-disposisi');
+    
+    // Arsip Jatuh Tempo
+    Route::get('/arsip-jatuh-tempo', [ReportController::class, 'arsipJatuhTempo'])->name('arsip-jatuh-tempo');
+    Route::get('/export/arsip-jatuh-tempo', [ReportController::class, 'exportArsipJatuhTempo'])->name('export.arsip-jatuh-tempo');
+    
+    // Audit Trail (Admin TU only)
+    Route::get('/audit-trail', [ReportController::class, 'auditTrail'])->name('audit-trail');
+    Route::get('/export/audit-trail', [ReportController::class, 'exportAuditTrail'])->name('export.audit-trail');
+    
+    // Statistik Dashboard
+    Route::get('/statistik', [ReportController::class, 'statistikDashboard'])->name('statistik');
+});
