@@ -29,3 +29,13 @@ Schedule::command('arsip:retention-scheduler --permanent-delete')
     ->weeklyOn(1, '02:00')
     ->withoutOverlapping()
     ->onOneServer();
+
+// ============================================
+// SCHEDULER UNTUK NOTIFIKASI DISPOSISI
+// ============================================
+
+// Daily: Cek batas waktu disposisi (H-1 dan overdue)
+Schedule::command('disposisi:check-deadlines')
+    ->dailyAt('09:00')
+    ->withoutOverlapping()
+    ->onOneServer();

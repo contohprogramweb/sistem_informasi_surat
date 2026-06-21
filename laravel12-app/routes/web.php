@@ -295,3 +295,28 @@ Route::middleware(['auth', 'verified', 'permission:arsip.manage'])
         Route::patch('/notifications/{notification}/read', [ArsipRetensiController::class, 'markNotificationAsRead'])
             ->name('notifications.read');
     });
+
+// ============================================
+// NOTIFICATION Routes
+// ============================================
+use App\Http\Controllers\NotificationController;
+
+Route::middleware(['auth', 'verified'])->prefix('notifications')->name('notifications.')->group(function () {
+    // Get notifications for bell dropdown
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    
+    // Mark single notification as read and redirect
+    Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+    
+    // Mark all notifications as read (AJAX)
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+    
+    // Record read receipt for disposisi
+    Route::post('/read-receipt', [NotificationController::class, 'recordReadReceipt'])->name('read-receipt');
+    
+    // Get unread count (AJAX polling)
+    Route::get('/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
+    
+    // View all notifications with pagination
+    Route::get('/all', [NotificationController::class, 'getAll'])->name('all');
+});
