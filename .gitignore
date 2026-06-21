@@ -1,42 +1,50 @@
 ```
+# Laravel-specific ignores
+vendor/
+composer.lock
+.env
+.env.*
+bootstrap/cache/
+storage/logs/
+public/storage/
+
 # Dependencies
 node_modules/
 
-# Build artifacts
-public/css/*.css
-public/js/*.js
-public/build/
-public/dist/
+# Compiled and build artifacts
+*.php~
+*.log
+*.tmp
+*.swp
 
-# Cache directories
-bootstrap/cache/
-storage/framework/cache/
-storage/logs/
-
-# Environment
-.env
-.env.local
-.env.*
-
-# Editor
+# Editors
 .vscode/
 .idea/
 *.swp
 *.swo
 
+# Environment
+.env
+.env.*
+.env.local
+
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Cache and temporary files
+.cache/
+*.cache
+*.tmp
+*~
 
-# Coverage
+# Coverage reports
 coverage/
 htmlcov/
 .coverage
 
-# Temporary files
-*.tmp
-*.temp
+# Build outputs
+dist/
+build/
+target/
 ```
