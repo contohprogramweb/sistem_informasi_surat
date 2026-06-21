@@ -138,17 +138,6 @@ class Disposisi extends Model
     }
 
     /**
-     * Check if this disposisi is overdue
-     */
-    public function isOverdue(): bool
-    {
-        if (!$this->batas_waktu || in_array($this->status, ['Selesai', 'Diteruskan'])) {
-            return false;
-        }
-        return now()->gt($this->batas_waktu);
-    }
-
-    /**
      * Get days until deadline (negative if overdue)
      */
     public function daysUntilDeadline(): ?int
