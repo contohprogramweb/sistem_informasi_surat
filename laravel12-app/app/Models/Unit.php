@@ -11,9 +11,10 @@ class Unit extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['kode_unit', 'nama_unit', 'deskripsi'];
+    protected $fillable = ['kode_unit', 'nama_unit', 'deskripsi', 'is_active'];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
